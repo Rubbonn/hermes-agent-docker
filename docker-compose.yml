@@ -1,0 +1,21 @@
+name: hermes-agent
+
+services:
+  hermes:
+    image: nousresearch/hermes-agent:latest
+    command: ["gateway", "run"]
+    ports:
+      - "8642:8642"
+      - "9119:9119"
+    environment:
+      - HERMES_DASHBOARD=1
+      - HERMES_DASHBOARD_OAUTH_CLIENT_ID=${HERMES_DASHBOARD_OAUTH_CLIENT_ID}
+    volumes:
+      - ~/.hermes:/opt/data
+    restart: unless-stopped
+
+  cf-tunnel:
+    image: cloudflare/cloudflared:latest
+    command: ["tunnel", "--no-autoupdate", "run", "--token", "${CLOUDFLARE_TUNNEL_TOKEN}"]
+    restart: unless-stopped
+    dns: 1.1.1.1
