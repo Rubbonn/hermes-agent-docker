@@ -10,6 +10,7 @@ services:
     environment:
       - HERMES_DASHBOARD=1
       - HERMES_DASHBOARD_OAUTH_CLIENT_ID=${HERMES_DASHBOARD_OAUTH_CLIENT_ID}
+      - HERMES_DASHBOARD_PUBLIC_URL=${HERMES_DASHBOARD_PUBLIC_URL}
     volumes:
       - ~/.hermes:/opt/data
     restart: unless-stopped
@@ -18,4 +19,3 @@ services:
     image: cloudflare/cloudflared:latest
     command: ["tunnel", "--no-autoupdate", "run", "--token", "${CLOUDFLARE_TUNNEL_TOKEN}"]
     restart: unless-stopped
-    dns: 1.1.1.1
